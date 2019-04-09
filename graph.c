@@ -5,6 +5,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* Helper function, prints the shortest path */
+static void print_path(int *pred, int curr);
+
 /* Graph represented as an array of pointers, where each pointer
    is a pointer to a vertex object */
 struct graph {
@@ -53,6 +56,10 @@ void graph_print(Graph *g) {
   }
 
 }
+/*
+unsigned int dijktras(Graph *g, unsigned int start, unsigned int dest) {
+  return 0;
+}*/
 
 void graph_destroy(Graph *g) {
 

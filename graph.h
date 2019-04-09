@@ -7,6 +7,8 @@ typedef struct graph Graph;
 Graph *graph_init(unsigned int matrix[6][6], unsigned int size);
 /* Prints the graph object */
 void graph_print(Graph *g);
+/* Dijktra's shortest path algorithm. Returns the shortest distance
+unsigned int dijkstras(Graph *g, unsigned int start, unsigned int dest);*/
 /* Destroys the graph */
 void graph_destroy(Graph *g);
 
