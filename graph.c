@@ -1,0 +1,84 @@
+#include "graph.h"
+#include "vertex.h"
+#include "adj_list.h"
+#include "adj_list_node.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+/* Graph represented as an array of pointers, where each pointer
+   is a pointer to a vertex object */
+struct graph {
+  Vertex **graph;    // the graph
+  unsigned int size; // number of vertices
+};
+
+Graph *graph_init(unsigned int matrix[6][6], unsigned int size) {
+
+  Graph *g = (Graph *)malloc(sizeof(Graph));
+  unsigned int i, j, weight;
+  AdjList *adj_list;
+
+  if (g) {
+    g->graph = (Vertex **)malloc(sizeof(Vertex *)*size);
+    if (g->graph) {
+      g->size = size;
+      // initialise each vertex
+      for (i = 0; i < size; i++) {
+        g->graph[i] = v_init(i);
+      }
+      // set up the adjacency lists
+      for (i = 0; i < size; i++) {
+        adj_list = v_get_adj_list(g->graph[i]);            
+        for (j = 0; j < size; j++) {
+          if (matrix[i][j]) {
+            weight = matrix[i][j];
+            adj_list_add(adj_list, g->graph[j], weight);
+          }
+        }
+      }
+      return g;
+    }
+  }
+
+  return NULL;
+}
+
+void graph_print(Graph *g) {
+
+  for (unsigned int i = 0; i < g->size; i++) {
+    printf("----------\n");
+    printf("Vertex %d\n", v_get_index(g->graph[i]));
+    adj_list_print(v_get_adj_list(g->graph[i]));
+    printf("----------\n");
+  }
+
+}
+
+void graph_destroy(Graph *g) {
+
+  AdjList *adj_list;
+  for (unsigned int i = 0; i < g->size; i++) {
+    adj_list = v_get_adj_list(g->graph[i]);
+    adj_list_destroy(adj_list);
+    v_destroy(g->graph[i]);
+  }
+  free(g->graph);
+  free(g);
+
+}
+
+int main() {
+
+  unsigned int nums[6][6] = {
+    {4, 0, 10, 0, 0, 0},
+    {4, 0, 5, 0, 0, 0},
+    {10, 5, 0, 4, 0, 0},
+    {0, 0, 4, 0, 3, 0},
+    {0, 0, 0, 3, 0, 0},
+    {2, 7, 0, 8, 6, 0}
+  };
+  Graph *g = graph_init(nums, 6);
+  graph_print(g);
+  graph_destroy(g);
+  return 0;
+}

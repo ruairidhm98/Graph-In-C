@@ -9,10 +9,12 @@ typedef struct adj_list_node AdjListNode;
 Vertex *v_init(unsigned int index);
 /* Returns the index of the vertex */
 unsigned int v_get_index(Vertex *v);
+/* Returns the adjacenct list */
+AdjList *v_get_adj_list(Vertex *v);
 /* Set the distance of the node */
 void v_set_dist(Vertex *v, unsigned int dist);
 /* Adds a neigbour to adjacency list */
-void v_add_adj_list(Vertex *v, Vertex *n);
+void v_add_adj_list(Vertex *v, Vertex *n, unsigned int weight);
 /* Destorys a verte object */
 void v_destroy(Vertex *v);
 

@@ -4,7 +4,7 @@
 
 /* Node in adjacency list */
 struct adj_list_node {
-  const Vertex *v;            // the neigbour
+  Vertex *v;            // the neigbour
   unsigned int weight;        // weight of the edge between neighbours
   struct adj_list_node *next; // pointer to next node
 };
@@ -24,6 +24,12 @@ AdjListNode *adj_node_init(Vertex *v, unsigned int weight) {
 
 AdjListNode *adj_node_get_next(AdjListNode *n) { return n ? n->next : NULL; }
 
+Vertex *adj_node_get_vertex(AdjListNode *n) { return n ? n->v : NULL; }
+
 unsigned int adj_node_get_weight(AdjListNode *n) { return n ? n->weight : __INT_MAX__; }
 
-void adj_node_set_next(AdjListNode *n, AdjListNode *next) { n ? n->next = next : NULL; }
+void adj_node_set_next(AdjListNode *n, AdjListNode *next) {
+  printf("next = %d\n", v_get_index(adj_node_get_vertex(n)));
+  printf("fucked it here\n");
+  n->next = next;
+}

@@ -1,4 +1,5 @@
 #include "vertex.h"
+#include "adj_list.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -16,7 +17,7 @@ Vertex *v_init(unsigned int index) {
   if (v) {
     v->dist = 0;
     v->index = index;
-    v->adj_list = NULL;
+    v->adj_list = adj_list_init();
   }
 
   return v;
@@ -24,19 +25,15 @@ Vertex *v_init(unsigned int index) {
 
 unsigned int v_get_index(Vertex *v) { return v ? v->index : __INT_MAX__; }
 
+AdjList *v_get_adj_list(Vertex *v) { return v ? v->adj_list : NULL; }
+
 void v_set_dist(Vertex *v, unsigned int dist) { v ? v->dist = dist : -1; }
 
-void v_add_adj_list(Vertex *v, Vertex *n) { v && n ? /*  */ 1 : 2; }
-
-void v_destroy(Vertex *v) {
-  free(v);
+void v_add_adj_list(Vertex *v, Vertex *n, unsigned int weight) {
+  v && n ? adj_list_add(v->adj_list, n, weight) : 0; 
 }
 
-int main() {
-  Vertex *v = v_init(2);
-  printf("index = %d\n", v_get_index(v));
-  v_set_dist(v, 10);
-  printf("dist = %d\n", v->dist);
-  v_destroy(v);
-  return 0;
+void v_destroy(Vertex *v) {
+  adj_list_destroy(v->adj_list);
+  free(v);
 }
