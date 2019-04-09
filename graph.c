@@ -60,25 +60,8 @@ void graph_destroy(Graph *g) {
   for (unsigned int i = 0; i < g->size; i++) {
     adj_list = v_get_adj_list(g->graph[i]);
     adj_list_destroy(adj_list);
-    v_destroy(g->graph[i]);
   }
   free(g->graph);
   free(g);
 
-}
-
-int main() {
-
-  unsigned int nums[6][6] = {
-    {4, 0, 10, 0, 0, 0},
-    {4, 0, 5, 0, 0, 0},
-    {10, 5, 0, 4, 0, 0},
-    {0, 0, 4, 0, 3, 0},
-    {0, 0, 0, 3, 0, 0},
-    {2, 7, 0, 8, 6, 0}
-  };
-  Graph *g = graph_init(nums, 6);
-  graph_print(g);
-  graph_destroy(g);
-  return 0;
 }

@@ -52,6 +52,7 @@ void adj_list_print(AdjList *list) {
     printf("%d ", v_get_index(adj_node_get_vertex(cursor)));
     cursor = adj_node_get_next(cursor);
   }
+  printf("\n");
 
 }
 
