@@ -6,13 +6,15 @@
 typedef struct pqueue PriorityQueue;
 
 /* Returns a pointer to an empty priority queue if successfull, NULL otherwise */
-PriorityQueue *pq_init(unsigned int capacity, int (*cmp)(Vertex *v, Vertex *n));
+PriorityQueue *pq_init(unsigned int capacity);
 /* Adds a new element to the queue */
 void pq_add(PriorityQueue *pq, unsigned int item);
 /* Removes the front of the queue */
 unsigned int pq_poll(PriorityQueue *pq);
 /* Decreases the priorty of an element and reorders */
 void pq_decrease_priority(unsigned int index, unsigned int new_prio);
+/* Prints the contents of the queue */
+void pq_print(PriorityQueue *pq);
 /* Destroys a priority queue object */
 void pq_destroy(PriorityQueue *pq);
 
