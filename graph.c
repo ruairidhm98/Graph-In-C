@@ -15,7 +15,7 @@ struct graph {
   unsigned int size; // number of vertices
 };
 
-Graph *graph_init(unsigned int matrix[6][6], unsigned int size) {
+Graph *graph_init(unsigned int **matrix, unsigned int size) {
 
   Graph *g = (Graph *)malloc(sizeof(Graph));
   unsigned int i, j, weight;
