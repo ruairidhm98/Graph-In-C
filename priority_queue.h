@@ -12,7 +12,7 @@ void pq_add(PriorityQueue *pq, unsigned int item);
 /* Removes the front of the queue */
 unsigned int pq_poll(PriorityQueue *pq);
 /* Decreases the priorty of an element and reorders */
-void pq_decrease_priority(unsigned int index, unsigned int new_prio);
+void pq_decrease_priority(PriorityQueue *pq, unsigned int index, unsigned int new_prio);
 /* Prints the contents of the queue */
 void pq_print(PriorityQueue *pq);
 /* Destroys a priority queue object */

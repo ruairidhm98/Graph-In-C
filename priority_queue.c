@@ -3,9 +3,9 @@
 #include <stdlib.h>
 
 /* Moves nodes in case of insertion */
-static void pqify_up(PriorityQueue *pq);
+static void heapify_up(PriorityQueue *pq);
 /* Moves nodes in case of deletion */
-static void pqify_down(PriorityQueue *pq);
+static void heapify_down(PriorityQueue *pq);
 /* Helper function */
 static unsigned int get_left_child_index(int i);
 /* Helper function */
@@ -60,7 +60,7 @@ void pq_add(PriorityQueue *pq, unsigned int item) {
       if (!pq_realloc(pq))
         return;  
     pq->queue[pq->size++] = item;
-    pqify_up(pq);
+    heapify_up(pq);
   }
 
 }
@@ -70,15 +70,22 @@ unsigned int pq_poll(PriorityQueue *pq) {
   
   unsigned int root = pq->queue[0];
   pq->queue[0] = pq->queue[--pq->size];
-  pqify_down(pq);
+  heapify_down(pq);
 
   return root;
 }
 
-/*
-void pq_decrease(unsigned int index, unsigned int new_prio) {
 
-}*/
+void pq_decrease(PriorityQueue *pq, unsigned int prev_dist, unsigned int new_prio) {
+
+  for (unsigned int i = 0; i < pq->size; i++) {
+    if (pq->queue[i] == prev_dist) {
+      pq->queue[i] = new_prio;
+      
+    }
+  }
+
+}
 
 void pq_print(PriorityQueue *pq) {
   if (pq) {
@@ -96,7 +103,7 @@ void pq_destroy(PriorityQueue *pq) {
 }
 
 /* Bubbles elements up */
-static void pqify_up(PriorityQueue *pq) {
+static void heapify_up(PriorityQueue *pq) {
 
   int index;
 
@@ -110,7 +117,7 @@ static void pqify_up(PriorityQueue *pq) {
 }
 
 /* Bubbles elements down */
-static void pqify_down(PriorityQueue *pq) {
+static void heapify_down(PriorityQueue *pq) {
 
   int index, smaller_child_index;
 
@@ -190,8 +197,7 @@ static int pq_realloc(PriorityQueue *pq) {
   if (pq) {
     pq->capacity = 2 * pq->capacity;
     pq->queue = (int *)realloc(pq->queue, pq->capacity);
-    if (pq->queue)
-      return 1;
+    if (pq->queue) return 1;
   }
   return 0;
 }
