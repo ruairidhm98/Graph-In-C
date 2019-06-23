@@ -1,7 +1,5 @@
 #include "graph.h"
 #include "vertex.h"
-#include "adj_list.h"
-#include "adj_list_node.h"
 #include <stdio.h>
 #include <stdlib.h>
 

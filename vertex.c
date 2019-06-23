@@ -119,6 +119,10 @@ void adj_list_print(AdjList *list) {
 
 }
 
+int v_cmp_dist(Vertex *v, Vertex *w) { 
+  return (v->dist > w->dist) ? 1 : (v->dist == w->dist) ? 0 : -1; 
+}
+
 void adj_list_destroy(AdjList *list) {
   
   AdjListNode *cursor = list->head, *temp;

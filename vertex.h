@@ -17,6 +17,8 @@ AdjList *v_get_adj_list(Vertex *v);
 void v_set_dist(Vertex *v, unsigned int dist);
 /* Adds a neigbour to adjacency list */
 void v_add_adj_list(Vertex *v, Vertex *n, unsigned int weight);
+/* Compares two vertices based on dist */
+int v_cmp_dist(Vertex *v, Vertex *w);
 /* Destorys a verte object */
 void v_destroy(Vertex *v);
 

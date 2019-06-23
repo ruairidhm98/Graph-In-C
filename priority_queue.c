@@ -1,11 +1,12 @@
 #include "priority_queue.h"
+#include "vertex.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 /* Moves nodes in case of insertion */
-static void pqify_up(PriorityQueue *pq);
+static void heapfiy_up(PriorityQueue *pq);
 /* Moves nodes in case of deletion */
-static void pqify_down(PriorityQueue *pq);
+static void heapfiy_down(PriorityQueue *pq);
 /* Helper function */
 static unsigned int get_left_child_index(int i);
 /* Helper function */
@@ -19,11 +20,11 @@ static unsigned int has_right_child(PriorityQueue *pq, int i);
 /* Helper function */
 static unsigned int has_parent(int i);
 /* Helper function */
-static int get_parent(PriorityQueue *pq, int);
+static Vertex get_parent(PriorityQueue *pq, int);
 /* Helper function */
-static int get_left_child(PriorityQueue *pq, int);
+static Vertex get_left_child(PriorityQueue *pq, int);
 /* Helper function */
-static int get_right_child(PriorityQueue *pq, int);
+static Vertex get_right_child(PriorityQueue *pq, int);
 /* Helper function */
 static void swap(int *ele, int i, int j);
 /* Helper function */
@@ -31,9 +32,10 @@ static int pq_realloc(PriorityQueue *pq);
 
 /* Priority queue implemented with a min pq */
 struct pqueue {
-  int *queue;                       // the queue
-  unsigned int size;                // size counter
-  unsigned int capacity;            // capacity of heap
+  Vertex **queue;                 // the queue
+  unsigned int size;              // size counter
+  unsigned int capacity;          // capacity of heap
+  int (*cmp)(Vertex *, Vertex *); // comparison function
 };
 
 
@@ -41,7 +43,7 @@ PriorityQueue *pq_init(unsigned int capacity) {
 
   PriorityQueue *pq = (PriorityQueue *)malloc(sizeof(PriorityQueue));
   if (pq) {
-    pq->queue = (int *)malloc(sizeof(int)*capacity);
+    pq->queue = (Vertex **)malloc(sizeof(Vertex *)*capacity);
     if (pq->queue) {
       pq->size = 0;
       pq->capacity = capacity;
@@ -53,24 +55,24 @@ PriorityQueue *pq_init(unsigned int capacity) {
 }
 
 
-void pq_add(PriorityQueue *pq, unsigned int item) {
+void pq_add(PriorityQueue *pq, Vertex *v) {
 
   if (pq) {
     if (pq->size == pq->capacity)
       if (!pq_realloc(pq))
         return;  
-    pq->queue[pq->size++] = item;
-    pqify_up(pq);
+    pq->queue[pq->size++] = v;
+    heapfiy_up(pq);
   }
 
 }
 
 
-unsigned int pq_poll(PriorityQueue *pq) {
+Vertex *pq_poll(PriorityQueue *pq) {
   
-  unsigned int root = pq->queue[0];
+  Vertex *root = pq->queue[0];
   pq->queue[0] = pq->queue[--pq->size];
-  pqify_down(pq);
+  heapfiy_down(pq);
 
   return root;
 }
@@ -96,7 +98,7 @@ void pq_destroy(PriorityQueue *pq) {
 }
 
 /* Bubbles elements up */
-static void pqify_up(PriorityQueue *pq) {
+static void heapfiy_up(PriorityQueue *pq) {
 
   int index;
 
@@ -110,7 +112,7 @@ static void pqify_up(PriorityQueue *pq) {
 }
 
 /* Bubbles elements down */
-static void pqify_down(PriorityQueue *pq) {
+static void heapfiy_down(PriorityQueue *pq) {
 
   int index, smaller_child_index;
 
@@ -162,17 +164,17 @@ static unsigned int has_right_child(PriorityQueue *pq, int index) {
 static unsigned int has_parent(int index) { return get_parent_index(index) >= 0; }
 
 /* Helper function, gets the left child of a parent node */
-static int get_left_child(PriorityQueue *pq, int index) {
+static Vertex get_left_child(PriorityQueue *pq, int index) {
   return pq->queue[get_left_child_index(index)];
 }
 
 /* Helper function, gets the right child of a parent node */
-static int get_right_child(PriorityQueue *pq, int index) {
+static Vertex get_right_child(PriorityQueue *pq, int index) {
   return pq->queue[get_right_child_index(index)];
 }
 
 /* Helper function, gets the parent of a given node */
-static int get_parent(PriorityQueue *pq, int index) {
+static Vertex get_parent(PriorityQueue *pq, int index) {
   return pq->queue[get_parent_index(index)];
 }
 
