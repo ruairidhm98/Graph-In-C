@@ -42,7 +42,6 @@ struct pqueue
 
 PriorityQueue *pq_init(unsigned int capacity)
 { 
-
   PriorityQueue *pq = (PriorityQueue *)malloc(sizeof(PriorityQueue));
   if (pq)
   {
@@ -58,10 +57,8 @@ PriorityQueue *pq_init(unsigned int capacity)
   return NULL;
 }
 
-
 void pq_add(PriorityQueue *pq, Vertex *v)
 {
-
   if (pq)
   {
     if (pq->size == pq->capacity)
@@ -69,17 +66,14 @@ void pq_add(PriorityQueue *pq, Vertex *v)
     pq->queue[pq->size++] = v;
     heapfiy_up(pq);
   }
-
 }
 
 
 Vertex *pq_poll(PriorityQueue *pq)
 {
-  
   Vertex *root = pq->queue[0];
   pq->queue[0] = pq->queue[--pq->size];
   heapfiy_down(pq);
-
   return root;
 }
 
@@ -93,13 +87,9 @@ void pq_print(PriorityQueue *pq)
   if (pq)
   {
     printf("[ ");
-    for (unsigned int i = 0; i < pq->size; i++)
-    {
-      printf("%d ", pq->queue[i]);
-    }
+    for (unsigned int i = 0; i < pq->size; i++) printf("%d ", pq->queue[i]);
     printf("]\n");
   }
-
 } 
 
 void pq_destroy(PriorityQueue *pq)
@@ -111,10 +101,7 @@ void pq_destroy(PriorityQueue *pq)
 /* Bubbles elements up */
 static void heapfiy_up(PriorityQueue *pq)
 {
-
-  int index;
-
-  index = pq->size - 1;
+  int index = pq->size - 1;
   /* Loop until correct position has been found */
   while (has_parent(index) && get_parent(pq, index) > pq->queue[index])
   {
@@ -122,13 +109,11 @@ static void heapfiy_up(PriorityQueue *pq)
     swap(pq->queue, get_parent_index(index), index);
     index = get_parent_index(index);
   }
-
 }
 
 /* Bubbles elements down */
 static void heapfiy_down(PriorityQueue *pq)
 {
-
   int index, smaller_child_index;
 
   index = 0;
